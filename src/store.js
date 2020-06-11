@@ -1,17 +1,18 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 
 const initialStore = {
   cart: [],
-  products: [
-    { id: 1, name: "Hipster Ultimate", price: 299, image: "https://s3.amazonaws.com/makeitreal/projects/e-commerce/camiseta-1.jpg" },
-    { id: 2, name: "On Motion Live", price: 99, image: "https://s3.amazonaws.com/makeitreal/projects/e-commerce/camiseta-2.jpg" },
-    { id: 3, name: "Underground Max", price: 149, image: "https://s3.amazonaws.com/makeitreal/projects/e-commerce/camiseta-3.jpg" },
-  ],
+  products: [],
 }
 
 const reducer = (state, action) => {
   const { type, payload } = action;
-  if (type === 'ADD_TO_CART') {
+  if (type === 'LOAD_PRODUCTS'){
+    return {
+      ...state,
+      products: payload
+    }
+  } else if (type === 'ADD_TO_CART') {
     return {
       ...state,
       cart: state.cart.concat(payload),
@@ -26,6 +27,13 @@ const reducer = (state, action) => {
   return state;
 }
 
-const store = createStore(reducer, initialStore);
+const logger = store => next => action => {
+  console.log('dispatching', action)
+  let result = next(action)
+  console.log('next state', store.getState())
+  return result
+}
+
+const store = createStore(reducer, initialStore, applyMiddleware(logger));
 
 export default store;
