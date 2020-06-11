@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import { Panel, Table, Button, Glyphicon } from 'react-bootstrap';
 import store from '../store';
+import { removeToCart } from '../actionCreators'
 
 const styles = {
   footer: {
@@ -54,12 +55,7 @@ class ShoppingCart extends Component {
     )
   }
 
-  removeFromCart(product) {
-    store.dispatch({
-      type: 'REMOVE_FROM_CART',
-      payload: product.id,
-    })
-  }
+  removeFromCart = product => store.dispatch(removeToCart(product));
 }
 
 export default ShoppingCart;
