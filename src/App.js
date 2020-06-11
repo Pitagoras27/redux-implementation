@@ -8,7 +8,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <a href="#">Ecommerce</a>
+        <span>Ecommerce</span>
         <section>
           <ProductList />
         </section>

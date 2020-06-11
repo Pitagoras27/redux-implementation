@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import { Button, Glyphicon } from 'react-bootstrap';
+import store from '../store';
 
 const styles = {
   products: {
@@ -26,6 +27,12 @@ class ProductList extends Component {
         { id: 3, name: "Underground Max", price: 149, image: "https://s3.amazonaws.com/makeitreal/projects/e-commerce/camiseta-3.jpg" },
       ]
     }
+
+    store.subscribe(() => {
+      this.setState({
+        cart: store.getState().cart
+      })
+    })
   }
 
   render() {
@@ -39,10 +46,10 @@ class ProductList extends Component {
               <p>
                 <button
                   onClick={() => this.addToCart(product)}
-                  role="button"
+                  type="button"
                   disabled={product.inventory <= 0}>
                     {`${product.price} precio`}
-                  </button>
+                </button>
               </p>
             </div>
           </div>
@@ -52,7 +59,10 @@ class ProductList extends Component {
   }
 
   addToCart(product) {
-
+    store.dispatch({
+      type: 'ADD_TO_CART',
+      payload: product,
+    })
   }
 }
 
