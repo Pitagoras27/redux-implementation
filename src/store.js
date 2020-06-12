@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 // para agregar llamados asincronicos dentro de action thunk, debe utilizarse
 // como middleware. 
 import thunk from 'redux-thunk';
@@ -7,6 +7,8 @@ const initialStore = {
   cart: [],
   products: [],
 }
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const reducer = (state, action) => {
   const { type, payload } = action;
@@ -37,6 +39,9 @@ const logger = store => next => action => {
   return result
 }
 
-const store = createStore(reducer, initialStore, applyMiddleware(logger, thunk));
+// https://github.com/zalmoxisus/redux-devtools-extension
+// 1.2 Advanced store setup
+
+const store = createStore(reducer, initialStore, composeEnhancers(applyMiddleware(logger, thunk)));
 
 export default store;
