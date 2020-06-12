@@ -1,4 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
+// para agregar llamados asincronicos dentro de action thunk, debe utilizarse
+// como middleware. 
+import thunk from 'redux-thunk';
 
 const initialStore = {
   cart: [],
@@ -34,6 +37,6 @@ const logger = store => next => action => {
   return result
 }
 
-const store = createStore(reducer, initialStore, applyMiddleware(logger));
+const store = createStore(reducer, initialStore, applyMiddleware(logger, thunk));
 
 export default store;
